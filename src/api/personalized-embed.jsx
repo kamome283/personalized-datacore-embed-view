@@ -41,55 +41,25 @@ function PersonalizedPageEmbed(element) {
             <div className="personalized-embed-header">
                 <h2 onClick={onTimestampClick}>{created.toFormat("HH:mm:ss")}</h2>
                 <fieldset>
-                    <input
-                        type="radio"
-                        id="choice-tweet"
-                        name={inputName}
-                        value="tweet"
-                        checked={pageStatus === "tweet"}
-                        onChange={() => setPageStatus("tweet")}
-                    />
-                    <label for="choice-tweet">🕊</label>
-
-                    <input
-                        type="radio"
-                        id="choice-now"
-                        name={inputName}
-                        value="now"
-                        checked={pageStatus === "now"}
-                        onChange={() => setPageStatus("now")}
-                    />
-                    <label for="choice-now">🎯</label>
-
-                    <input
-                        type="radio"
-                        id="choice-task"
-                        name={inputName}
-                        value="task"
-                        checked={pageStatus === "task"}
-                        onChange={() => setPageStatus("task")}
-                    />
-                    <label for="choice-task">📋</label>
-
-                    <input
-                        type="radio"
-                        id="choice-later"
-                        name={inputName}
-                        value="later"
-                        checked={pageStatus === "later"}
-                        onChange={() => setPageStatus("later")}
-                    />
-                    <label for="choice-later">⌛</label>
-
-                    <input
-                        type="radio"
-                        id="choice-done"
-                        name={inputName}
-                        value="done"
-                        checked={pageStatus === "done"}
-                        onChange={() => setPageStatus("done")}
-                    />
-                    <label for="choice-done">✅</label>
+                    {[
+                        { value: "tweet", label: "🕊" },
+                        { value: "now", label: "🎯" },
+                        { value: "task", label: "📋" },
+                        { value: "later", label: "⌛" },
+                        { value: "done", label: "✅" },
+                    ].map(({ value, label }) => (
+                        <dc.preact.Fragment key={value}>
+                            <input
+                                type="radio"
+                                id={`choice-${value}`}
+                                name={inputName}
+                                value={value}
+                                checked={pageStatus === value}
+                                onChange={() => setPageStatus(value)}
+                            />
+                            <label htmlFor={`choice-${value}`}>{label}</label>
+                        </dc.preact.Fragment>
+                    ))}
                 </fieldset>
             </div>
 
