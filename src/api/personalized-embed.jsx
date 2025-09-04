@@ -32,6 +32,10 @@ function PersonalizedPageEmbed(element) {
     if (!file) throw new Error("No Matching TFile");
 
     dc.useEffect(() => {
+        setPageStatus(elementStatus ?? "tweet");
+    }, [elementStatus]);
+
+    dc.useEffect(() => {
         if (elementStatus === pageStatus) return;
         dc.app.fileManager.processFrontMatter(file, (frontmatter) => {
             frontmatter.status = pageStatus;
