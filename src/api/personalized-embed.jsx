@@ -23,10 +23,18 @@ function PersonalizedPageEmbed(element) {
         [path, workspace]
     );
 
-    const pageType = element.value("page-type") ?? "tweet";
     const inputName = dc.useMemo(() => {
         return `page-type-${self.crypto.randomUUID()}`;
     }, []);
+    const [pageType, setPageType] = dc.useState(() => element.value("status") ?? "tweet");
+    const file = dc.core.vault.getFileByPath(path);
+    if (!file) throw new Error("No Matching TFile");
+
+    dc.useEffect(() => {
+        dc.app.fileManager.processFrontMatter(file, (frontmatter) => {
+            frontmatter.status = pageType;
+        });
+    }, [pageType]);
 
     return (
         <div className="personalized-embed">
@@ -39,13 +47,28 @@ function PersonalizedPageEmbed(element) {
                         name={inputName}
                         value="tweet"
                         checked={pageType === "tweet"}
+                        onChange={() => setPageType("tweet")}
                     />
                     <label for="choice-tweet">🕊</label>
 
-                    <input type="radio" id="choice-now" name={inputName} value="now" checked={pageType === "now"} />
+                    <input
+                        type="radio"
+                        id="choice-now"
+                        name={inputName}
+                        value="now"
+                        checked={pageType === "now"}
+                        onChange={() => setPageType("now")}
+                    />
                     <label for="choice-now">🎯</label>
 
-                    <input type="radio" id="choice-task" name={inputName} value="task" checked={pageType === "task"} />
+                    <input
+                        type="radio"
+                        id="choice-task"
+                        name={inputName}
+                        value="task"
+                        checked={pageType === "task"}
+                        onChange={() => setPageType("task")}
+                    />
                     <label for="choice-task">📋</label>
 
                     <input
@@ -54,10 +77,18 @@ function PersonalizedPageEmbed(element) {
                         name={inputName}
                         value="later"
                         checked={pageType === "later"}
+                        onChange={() => setPageType("later")}
                     />
                     <label for="choice-later">⌛</label>
 
-                    <input type="radio" id="choice-done" name={inputName} value="done" checked={pageType === "done"} />
+                    <input
+                        type="radio"
+                        id="choice-done"
+                        name={inputName}
+                        value="done"
+                        checked={pageType === "done"}
+                        onChange={() => setPageType("done")}
+                    />
                     <label for="choice-done">✅</label>
                 </fieldset>
             </div>
