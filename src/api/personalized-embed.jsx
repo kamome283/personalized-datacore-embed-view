@@ -23,6 +23,7 @@ function PersonalizedPageEmbed(element) {
         [path, workspace]
     );
 
+    const pageType = element.value("page-type") ?? "tweet";
     const inputName = dc.useMemo(() => {
         return `page-type-${self.crypto.randomUUID()}`;
     }, []);
@@ -32,19 +33,31 @@ function PersonalizedPageEmbed(element) {
             <div className="personalized-embed-header">
                 <h2 onClick={onTimestampClick}>{created.toFormat("HH:mm:ss")}</h2>
                 <fieldset>
-                    <input type="radio" id="choice-tweet" name={inputName} value="tweet" />
+                    <input
+                        type="radio"
+                        id="choice-tweet"
+                        name={inputName}
+                        value="tweet"
+                        checked={pageType === "tweet"}
+                    />
                     <label for="choice-tweet">🕊</label>
 
-                    <input type="radio" id="choice-now" name={inputName} value="now" />
+                    <input type="radio" id="choice-now" name={inputName} value="now" checked={pageType === "now"} />
                     <label for="choice-now">🎯</label>
 
-                    <input type="radio" id="choice-task" name={inputName} value="task" />
+                    <input type="radio" id="choice-task" name={inputName} value="task" checked={pageType === "task"} />
                     <label for="choice-task">📋</label>
 
-                    <input type="radio" id="choice-later" name={inputName} value="later" />
+                    <input
+                        type="radio"
+                        id="choice-later"
+                        name={inputName}
+                        value="later"
+                        checked={pageType === "later"}
+                    />
                     <label for="choice-later">⌛</label>
 
-                    <input type="radio" id="choice-done" name={inputName} value="done" checked={true} />
+                    <input type="radio" id="choice-done" name={inputName} value="done" checked={pageType === "done"} />
                     <label for="choice-done">✅</label>
                 </fieldset>
             </div>
