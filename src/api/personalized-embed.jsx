@@ -32,6 +32,7 @@ function PersonalizedPageEmbed(element) {
 
     dc.useEffect(() => {
         dc.app.fileManager.processFrontMatter(file, (frontmatter) => {
+            if (frontmatter.status === pageStatus) return;
             frontmatter.status = pageStatus;
         });
     }, [pageStatus]);
