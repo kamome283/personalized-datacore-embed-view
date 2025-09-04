@@ -12,6 +12,8 @@ function PersonalizedPageEmbed(element) {
         throw new Error("Does not have created property");
     }
 
+    const uuid = dc.useMemo(() => self.crypto.randomUUID(), []);
+
     const path = element.$file;
     const { start, end } = element.$position;
     const created = element.value("created");
@@ -23,9 +25,7 @@ function PersonalizedPageEmbed(element) {
         [path, workspace]
     );
 
-    const inputName = dc.useMemo(() => {
-        return `page-status-${self.crypto.randomUUID()}`;
-    }, []);
+    const inputName = `page-status-${uuid}`;
     const [pageStatus, setPageStatus] = dc.useState(() => element.value("status") ?? "tweet");
     const file = dc.core.vault.getFileByPath(path);
     if (!file) throw new Error("No Matching TFile");
@@ -38,7 +38,7 @@ function PersonalizedPageEmbed(element) {
     }, [pageStatus]);
 
     return (
-        <div className="personalized-embed">
+        <div className="personalized-embed" key={uuid}>
             <div className="personalized-embed-header">
                 <h2 onClick={onTimestampClick}>{created.toFormat("HH:mm:ss")}</h2>
                 <fieldset>
