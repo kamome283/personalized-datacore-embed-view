@@ -35,7 +35,7 @@ function PersonalizedPageEmbed(element) {
             if (frontmatter.status === pageStatus) return;
             frontmatter.status = pageStatus;
         });
-    }, [pageStatus]);
+    }, [pageStatus, file]);
 
     return (
         <div className="personalized-embed" key={uuid}>
