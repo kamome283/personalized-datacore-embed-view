@@ -25,17 +25,18 @@ function PersonalizedPageEmbed(element) {
         [path, workspace]
     );
 
+    const elementStatus = element.value("status");
     const inputName = `page-status-${uuid}`;
-    const [pageStatus, setPageStatus] = dc.useState(() => element.value("status") ?? "tweet");
+    const [pageStatus, setPageStatus] = dc.useState(() => elementStatus ?? "tweet");
     const file = dc.core.vault.getFileByPath(path);
     if (!file) throw new Error("No Matching TFile");
 
     dc.useEffect(() => {
-        if (element.value("status") === pageStatus) return;
+        if (elementStatus === pageStatus) return;
         dc.app.fileManager.processFrontMatter(file, (frontmatter) => {
             frontmatter.status = pageStatus;
         });
-    }, [pageStatus, file]);
+    }, [pageStatus, file, elementStatus]);
 
     return (
         <div className="personalized-embed" key={uuid}>
