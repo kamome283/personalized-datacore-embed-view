@@ -24,17 +24,17 @@ function PersonalizedPageEmbed(element) {
     );
 
     const inputName = dc.useMemo(() => {
-        return `page-type-${self.crypto.randomUUID()}`;
+        return `page-status-${self.crypto.randomUUID()}`;
     }, []);
-    const [pageType, setPageType] = dc.useState(() => element.value("status") ?? "tweet");
+    const [pageStatus, setPageStatus] = dc.useState(() => element.value("status") ?? "tweet");
     const file = dc.core.vault.getFileByPath(path);
     if (!file) throw new Error("No Matching TFile");
 
     dc.useEffect(() => {
         dc.app.fileManager.processFrontMatter(file, (frontmatter) => {
-            frontmatter.status = pageType;
+            frontmatter.status = pageStatus;
         });
-    }, [pageType]);
+    }, [pageStatus]);
 
     return (
         <div className="personalized-embed">
@@ -46,8 +46,8 @@ function PersonalizedPageEmbed(element) {
                         id="choice-tweet"
                         name={inputName}
                         value="tweet"
-                        checked={pageType === "tweet"}
-                        onChange={() => setPageType("tweet")}
+                        checked={pageStatus === "tweet"}
+                        onChange={() => setPageStatus("tweet")}
                     />
                     <label for="choice-tweet">🕊</label>
 
@@ -56,8 +56,8 @@ function PersonalizedPageEmbed(element) {
                         id="choice-now"
                         name={inputName}
                         value="now"
-                        checked={pageType === "now"}
-                        onChange={() => setPageType("now")}
+                        checked={pageStatus === "now"}
+                        onChange={() => setPageStatus("now")}
                     />
                     <label for="choice-now">🎯</label>
 
@@ -66,8 +66,8 @@ function PersonalizedPageEmbed(element) {
                         id="choice-task"
                         name={inputName}
                         value="task"
-                        checked={pageType === "task"}
-                        onChange={() => setPageType("task")}
+                        checked={pageStatus === "task"}
+                        onChange={() => setPageStatus("task")}
                     />
                     <label for="choice-task">📋</label>
 
@@ -76,8 +76,8 @@ function PersonalizedPageEmbed(element) {
                         id="choice-later"
                         name={inputName}
                         value="later"
-                        checked={pageType === "later"}
-                        onChange={() => setPageType("later")}
+                        checked={pageStatus === "later"}
+                        onChange={() => setPageStatus("later")}
                     />
                     <label for="choice-later">⌛</label>
 
@@ -86,8 +86,8 @@ function PersonalizedPageEmbed(element) {
                         id="choice-done"
                         name={inputName}
                         value="done"
-                        checked={pageType === "done"}
-                        onChange={() => setPageType("done")}
+                        checked={pageStatus === "done"}
+                        onChange={() => setPageStatus("done")}
                     />
                     <label for="choice-done">✅</label>
                 </fieldset>
