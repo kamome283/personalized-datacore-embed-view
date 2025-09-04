@@ -38,18 +38,20 @@ function PersonalizedPageEmbed(element) {
         });
     }, [pageStatus, file, elementStatus]);
 
+    const STATUS_OPTIONS = [
+        { value: "tweet", label: "🕊" },
+        { value: "now", label: "🎯" },
+        { value: "task", label: "📋" },
+        { value: "later", label: "⌛" },
+        { value: "done", label: "✅" },
+    ];
+
     return (
         <div className="personalized-embed" key={uuid}>
             <div className="personalized-embed-header">
                 <h2 onClick={onTimestampClick}>{created.toFormat("HH:mm:ss")}</h2>
                 <fieldset>
-                    {[
-                        { value: "tweet", label: "🕊" },
-                        { value: "now", label: "🎯" },
-                        { value: "task", label: "📋" },
-                        { value: "later", label: "⌛" },
-                        { value: "done", label: "✅" },
-                    ].map(({ value, label }) => (
+                    {STATUS_OPTIONS.map(({ value, label }) => (
                         <dc.preact.Fragment key={value}>
                             <input
                                 type="radio"
