@@ -31,8 +31,8 @@ function PersonalizedPageEmbed(element) {
     if (!file) throw new Error("No Matching TFile");
 
     dc.useEffect(() => {
+        if (element.value("status") === pageStatus) return;
         dc.app.fileManager.processFrontMatter(file, (frontmatter) => {
-            if (frontmatter.status === pageStatus) return;
             frontmatter.status = pageStatus;
         });
     }, [pageStatus, file]);
