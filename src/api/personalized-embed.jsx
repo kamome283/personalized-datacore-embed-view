@@ -65,13 +65,13 @@ function PersonalizedPageEmbed(element) {
                         <dc.preact.Fragment key={value}>
                             <input
                                 type="radio"
-                                id={`choice-${value}`}
+                                id={`choice-${value}-${uuid}`}
                                 name={inputName}
                                 value={value}
                                 checked={pageStatus === value}
                                 onChange={() => setPageStatus(value)}
                             />
-                            <label htmlFor={`choice-${value}`}>{label}</label>
+                            <label htmlFor={`choice-${value}-${uuid}`}>{label}</label>
                         </dc.preact.Fragment>
                     ))}
                 </fieldset>
