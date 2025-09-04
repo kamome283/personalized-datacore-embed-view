@@ -12,6 +12,8 @@ function PersonalizedPageEmbed(element) {
         throw new Error("Does not have created property");
     }
 
+    // コンポーネントの初回作成時に一意で更新されないUUIDを付与
+    // キーなど一意性が必要な場所で用いる
     const uuid = dc.useMemo(() => self.crypto.randomUUID(), []);
 
     const path = element.$file;
@@ -20,6 +22,8 @@ function PersonalizedPageEmbed(element) {
 
     const workspace = dc.app.workspace;
     if (!workspace) throw new Error("No workspace found");
+
+    // タイムスタンプをクリックした際に埋め込み元のファイルにジャンプするイベントハンドラー
     const onTimestampClick = dc.useCallback(
         (event) => workspace.openLinkText(path, path, event.shiftKey),
         [path, workspace]
@@ -31,10 +35,12 @@ function PersonalizedPageEmbed(element) {
     const file = dc.core.vault.getFileByPath(path);
     if (!file) throw new Error("No Matching TFile");
 
+    // elementのステータスプロパティが外部から修正された場合に状態を更新する
     dc.useEffect(() => {
         setPageStatus(elementStatus ?? "tweet");
     }, [elementStatus]);
 
+    // ラジオボタンを介して状態が変更された際に、実際にファイルのプロパティを更新する
     dc.useEffect(() => {
         if (elementStatus === pageStatus) return;
         dc.app.fileManager.processFrontMatter(file, (frontmatter) => {
