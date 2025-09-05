@@ -19,9 +19,10 @@ export function View() {
     return taskOptions.map((option) => {
         const group = grouped.find(({ key, _ }) => key === option.value);
         if (!group) return <div />;
+
         const { key, rows } = group;
         return (
-            <div>
+            <div key={key}>
                 <h2>
                     {key.toUpperCase()}
                     {option.label}
