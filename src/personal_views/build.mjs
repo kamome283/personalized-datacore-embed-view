@@ -1,10 +1,18 @@
 import * as esbuild from "esbuild";
-import { readFile, writeFile, unlink } from "fs/promises";
+import { readdir, readFile, unlink, writeFile } from "fs/promises";
+import path from "path";
 
 const srcDir = "src/personal_views";
 const outDir = "personal_views_out";
 
-const buildTargets = [[`${srcDir}/timeline.jsx`, `${outDir}/timeline.jsx`]];
+async function listBuildTargets(srcDir) {
+    const files = await readdir(srcDir);
+    return files
+        .filter((filename) => filename.endsWith(".jsx"))
+        .map((filename) => [path.join(srcDir, filename), path.join(outDir, filename)]);
+}
+
+const buildTargets = await listBuildTargets(srcDir)
 
 // Obsidian Datacoreのビューの形式はESMではないため、
 // 一時ファイルにESMとして出力した後に正規表現を用いて編集したものを最終出力とすることで
