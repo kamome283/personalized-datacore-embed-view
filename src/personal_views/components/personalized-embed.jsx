@@ -1,3 +1,5 @@
+import { STATUS_OPTIONS } from "../constants/status-options";
+
 export function PersonalizedPageEmbed(element) {
     if (!element.$types.contains("page")) {
         throw new Error("Not a page");
@@ -47,14 +49,6 @@ export function PersonalizedPageEmbed(element) {
             frontmatter.status = pageStatus;
         });
     }, [pageStatus, file, elementStatus]);
-
-    const STATUS_OPTIONS = [
-        { value: "tweet", label: "🕊" },
-        { value: "now", label: "🎯" },
-        { value: "task", label: "📋" },
-        { value: "later", label: "⌛" },
-        { value: "done", label: "✅" },
-    ];
 
     return (
         <div className="personalized-embed" key={uuid}>
