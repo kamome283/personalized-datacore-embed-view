@@ -1,4 +1,4 @@
-import { PersonalizedPageEmbed } from "./personalized-embed";
+import { PersonalizedPageEmbed } from "./components/personalized-embed";
 
 export function View() {
     const currentFile = dc.useCurrentFile();
