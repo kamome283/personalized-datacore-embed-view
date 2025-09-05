@@ -1,4 +1,4 @@
-function PersonalizedPageEmbed(element) {
+export function PersonalizedPageEmbed(element) {
     if (!element.$types.contains("page")) {
         throw new Error("Not a page");
     }
