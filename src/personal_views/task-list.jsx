@@ -22,7 +22,10 @@ export function View() {
         const { key, rows } = group;
         return (
             <div>
-                <h2>{key}</h2>
+                <h2>
+                    {key.toUpperCase()}
+                    {option.label}
+                </h2>
                 <dc.List rows={rows} type="block" renderer={PersonalizedPageEmbed} />
             </div>
         );
