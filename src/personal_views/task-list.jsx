@@ -9,5 +9,16 @@ export function View() {
         and created < date(${today}) + dur(1d)
         and status != "tweet"`;
     const data = dc.useQuery(query);
-    return <dc.List rows={data} type="block" renderer={PersonalizedPageEmbed} />;
+    const grouped = dc.useArray(data, (data) => {
+        return data.sort((e) => e.value("created")).groupBy((e) => e.value("status"));
+    });
+
+    return grouped.map(({ key, rows }) => {
+        return (
+            <div>
+                <h2>{key}</h2>
+                <dc.List rows={rows} type="block" renderer={PersonalizedPageEmbed} />
+            </div>
+        );
+    });
 }
