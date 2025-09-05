@@ -12,7 +12,7 @@ async function listBuildTargets(srcDir) {
         .map((filename) => [path.join(srcDir, filename), path.join(outDir, filename)]);
 }
 
-const buildTargets = await listBuildTargets(srcDir)
+const buildTargets = await listBuildTargets(srcDir);
 
 // Obsidian Datacoreのビューの形式はESMではないため、
 // 一時ファイルにESMとして出力した後に正規表現を用いて編集したものを最終出力とすることで
