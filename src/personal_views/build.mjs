@@ -27,6 +27,4 @@ async function build(entryPoint, outFile) {
     });
 }
 
-for (const target of buildTargets) {
-    await build(...target);
-}
+await Promise.all(buildTargets.map((target) => build(...target)));
