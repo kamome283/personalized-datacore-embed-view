@@ -7,6 +7,7 @@ export function View() {
         @page 
         and created >= date(${today}) - dur(6d) 
         and created < date(${today}) + dur(1d)
+        and exists(status)
         and status != "tweet"`;
     const data = dc.useQuery(query);
     const grouped = dc.useArray(data, (data) => {
