@@ -11,7 +11,7 @@ export function PersonalizedPageEmbed(element) {
         throw new Error("Does not have position property");
     }
     if (!element.value("created")) {
-        return <div />
+        return <div />;
     }
 
     // コンポーネントの初回作成時に一意で更新されないUUIDを付与
