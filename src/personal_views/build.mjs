@@ -21,9 +21,9 @@ async function build(entryPoint, outFile) {
         bundle: true,
         minify: false,
         jsx: "preserve",
-        format: "iife",
-        globalName: "tempModule",
-        footer: { js: "return tempModule.View;" },
+        format: "esm",
+        treeShaking: false, // メインのView関数がexportされない場合は削除されてしまうのを阻止
+        footer: { js: "return View;" },
     });
 }
 
