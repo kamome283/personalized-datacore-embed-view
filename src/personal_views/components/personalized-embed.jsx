@@ -52,7 +52,10 @@ export function PersonalizedPageEmbed(element) {
     return (
         <div className="personalized-embed" key={uuid}>
             <div className="personalized-embed-header">
-                <h2 onClick={onTimestampClick}>{created.toFormat("HH:mm:ss")}</h2>
+                <h2 onClick={onTimestampClick}>
+                    <span className="date">{created.toFormat("MM/dd")} </span>
+                    <span className="time">{created.toFormat("HH:mm:ss")}</span>
+                </h2>
                 <fieldset>
                     {STATUS_OPTIONS.map(({ value, label }) => (
                         <dc.preact.Fragment key={value}>
