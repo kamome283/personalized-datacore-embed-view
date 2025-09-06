@@ -1,7 +1,7 @@
 import { PersonalizedPageEmbed } from "./components/personalized-embed";
 import { STATUS_OPTIONS } from "./constants/status-options";
 
-export function View() {
+function View() {
     const currentFile = dc.useCurrentFile();
     const today = currentFile.$name;
     const query = `
