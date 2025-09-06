@@ -31,9 +31,9 @@ export function PersonalizedPageEmbed(element) {
         [path, workspace]
     );
 
-    const elementStatus = element.value("status");
+    const status = element.value("status");
     const inputName = `page-status-${uuid}`;
-    const onStatusChangeByButton = dc.useCallback((status) => {
+    const onStatusChangeByButton = dc.useCallback((newStatus) => {
         // 実際にボタンを選択した際に処理が走るのやからEffectと違って自動的に処理が走るわけではない
         // 状態を独自に持ち書き込み前に検査することでinvalidな状態に陥るリスクよりも
         // 毎回必ず書き込みを行うことでコストはかかるが確実にvalidな状態になるほうが好ましい
@@ -44,7 +44,7 @@ export function PersonalizedPageEmbed(element) {
         dc.app.fileManager.processFrontMatter(
             file,
             (frontmatter) => {
-                frontmatter.status = status;
+                frontmatter.status = newStatus;
             },
             [path]
         );
@@ -62,7 +62,7 @@ export function PersonalizedPageEmbed(element) {
                                 id={`choice-${value}-${uuid}`}
                                 name={inputName}
                                 value={value}
-                                checked={elementStatus === value}
+                                checked={status === value}
                                 onChange={() => onStatusChangeByButton(value)}
                             />
                             <label htmlFor={`choice-${value}-${uuid}`}>{label}</label>
