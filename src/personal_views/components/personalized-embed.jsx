@@ -33,22 +33,21 @@ export function PersonalizedPageEmbed(element) {
 
     const status = element.value("status");
     const inputName = `page-status-${uuid}`;
-    const onStatusChangeByButton = dc.useCallback((newStatus) => {
-        // 実際にボタンを選択した際に処理が走るのやからEffectと違って自動的に処理が走るわけではない
-        // 状態を独自に持ち書き込み前に検査することでinvalidな状態に陥るリスクよりも
-        // 毎回必ず書き込みを行うことでコストはかかるが確実にvalidな状態になるほうが好ましい
-        // また書き込み処理の回数が多くないのならこのコールバックの外でファイルを作成し
-        // そのファイルを依存配列に入れるよりも毎回ここで作成するほうが信頼性が高そう
-        const file = dc.core.vault.getFileByPath(path);
-        if (!file) throw new Error("No Matching TFile");
-        dc.app.fileManager.processFrontMatter(
-            file,
-            (frontmatter) => {
+    const onStatusChangeByButton = dc.useCallback(
+        (newStatus) => {
+            // 実際にボタンを選択した際に処理が走るのやからEffectと違って自動的に処理が走るわけではない
+            // 状態を独自に持ち書き込み前に検査することでinvalidな状態に陥るリスクよりも
+            // 毎回必ず書き込みを行うことでコストはかかるが確実にvalidな状態になるほうが好ましい
+            // また書き込み処理の回数が多くないのならこのコールバックの外でファイルを作成し
+            // そのファイルを依存配列に入れるよりも毎回ここで作成するほうが信頼性が高そう
+            const file = dc.core.vault.getFileByPath(path);
+            if (!file) throw new Error("No Matching TFile");
+            dc.app.fileManager.processFrontMatter(file, (frontmatter) => {
                 frontmatter.status = newStatus;
-            },
-            [path]
-        );
-    });
+            });
+        },
+        [path]
+    );
 
     return (
         <div className="personalized-embed" key={uuid}>
