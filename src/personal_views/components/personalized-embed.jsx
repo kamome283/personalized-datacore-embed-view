@@ -34,21 +34,30 @@ export function PersonalizedPageEmbed(element) {
     const elementStatus = element.value("status");
     const inputName = `page-status-${uuid}`;
     const [pageStatus, setPageStatus] = dc.useState(() => elementStatus ?? "tweet");
-    const file = dc.core.vault.getFileByPath(path);
-    if (!file) throw new Error("No Matching TFile");
+    const onStatusChangeByButton = dc.useCallback((status) => {
+        // 実際にボタンを選択した際に処理が走るのやからEffectと違って自動的に処理が走るわけではない
+        // 状態を独自に持ち書き込み前に検査することでinvalidな状態に陥るリスクよりも
+        // 毎回必ず書き込みを行うことでコストはかかるが確実にvalidな状態になるほうが好ましい
+        // また書き込み処理の回数が多くないのならこのコールバックの外でファイルを作成し
+        // そのファイルを依存配列に入れるよりも毎回ここで作成するほうが信頼性が高そう
+        const file = dc.core.vault.getFileByPath(path);
+        if (!file) throw new Error("No Matching TFile");
+        dc.app.fileManager.processFrontMatter(
+            file,
+            (frontmatter) => {
+                frontmatter.status = status;
+            },
+            [path]
+        );
+
+        // コンポーネント内部の状態更新
+        setPageStatus(status);
+    });
 
     // elementのステータスプロパティが外部から修正された場合に状態を更新する
     dc.useEffect(() => {
         setPageStatus(elementStatus ?? "tweet");
     }, [elementStatus]);
-
-    // ラジオボタンを介して状態が変更された際に、実際にファイルのプロパティを更新する
-    dc.useEffect(() => {
-        if (elementStatus === pageStatus) return;
-        dc.app.fileManager.processFrontMatter(file, (frontmatter) => {
-            frontmatter.status = pageStatus;
-        });
-    }, [pageStatus, file, elementStatus]);
 
     return (
         <div className="personalized-embed" key={uuid}>
@@ -63,7 +72,7 @@ export function PersonalizedPageEmbed(element) {
                                 name={inputName}
                                 value={value}
                                 checked={pageStatus === value}
-                                onChange={() => setPageStatus(value)}
+                                onChange={() => onStatusChangeByButton(value)}
                             />
                             <label htmlFor={`choice-${value}-${uuid}`}>{label}</label>
                         </dc.preact.Fragment>
