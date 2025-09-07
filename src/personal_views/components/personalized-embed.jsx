@@ -25,11 +25,8 @@ export function PersonalizedPageEmbed(element) {
     const workspace = dc.app.workspace;
     if (!workspace) throw new Error("No workspace found");
 
-    // タイムスタンプをクリックした際に埋め込み元のファイルにジャンプするイベントハンドラー
-    const onTimestampClick = dc.useCallback(
-        (event) => workspace.openLinkText(path, path, event.shiftKey),
-        [path, workspace]
-    );
+    // クリックした際に埋め込み元のファイルにジャンプするイベントハンドラー
+    const jumpToFile = dc.useCallback((event) => workspace.openLinkText(path, path, event.shiftKey), [path, workspace]);
 
     const status = element.value("status");
     const inputName = `page-status-${uuid}`;
@@ -52,7 +49,7 @@ export function PersonalizedPageEmbed(element) {
     return (
         <div className="personalized-embed" key={uuid}>
             <div className="personalized-embed-header">
-                <h2 onClick={onTimestampClick}>
+                <h2 onClick={jumpToFile}>
                     <span className="date">{created.toFormat("MM/dd")} </span>
                     <span className="time">{created.toFormat("HH:mm:ss")}</span>
                 </h2>
