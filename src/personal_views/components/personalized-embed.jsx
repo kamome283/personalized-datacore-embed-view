@@ -29,7 +29,7 @@ export function PersonalizedPageEmbed(element) {
     const jumpToFile = dc.useCallback(
         (event) => {
             // イベントの発生源がチェックボックスなら、ファイルへのジャンプを中止する
-            if (event.target.tagName === "INPUT" && event.target.type === "checkbox") {
+            if (event.target.closest('a, button, input, select, textarea')) {
                 return;
             }
             workspace.openLinkText(path, path, event.shiftKey);
