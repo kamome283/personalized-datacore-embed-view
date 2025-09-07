@@ -70,7 +70,9 @@ export function PersonalizedPageEmbed(element) {
                 </fieldset>
             </div>
 
-            <dc.SpanEmbed path={path} start={start} end={end} showExplain={false} />
+            <div onClick={jumpToFile}>
+                <dc.SpanEmbed path={path} start={start} end={end} showExplain={false} />
+            </div>
         </div>
     );
 }
