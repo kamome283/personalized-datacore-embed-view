@@ -26,7 +26,16 @@ export function PersonalizedPageEmbed(element) {
     if (!workspace) throw new Error("No workspace found");
 
     // クリックした際に埋め込み元のファイルにジャンプするイベントハンドラー
-    const jumpToFile = dc.useCallback((event) => workspace.openLinkText(path, path, event.shiftKey), [path, workspace]);
+    const jumpToFile = dc.useCallback(
+        (event) => {
+            // イベントの発生源がチェックボックスなら、ファイルへのジャンプを中止する
+            if (event.target.tagName === "INPUT" && event.target.type === "checkbox") {
+                return;
+            }
+            workspace.openLinkText(path, path, event.shiftKey);
+        },
+        [path, workspace]
+    );
 
     const status = element.value("status");
     const inputName = `page-status-${uuid}`;
