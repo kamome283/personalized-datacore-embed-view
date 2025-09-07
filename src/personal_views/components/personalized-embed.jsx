@@ -25,9 +25,15 @@ export function PersonalizedPageEmbed(element) {
     const workspace = dc.app.workspace;
     if (!workspace) throw new Error("No workspace found");
 
-    // タイムスタンプをクリックした際に埋め込み元のファイルにジャンプするイベントハンドラー
-    const onTimestampClick = dc.useCallback(
-        (event) => workspace.openLinkText(path, path, event.shiftKey),
+    // クリックした際に埋め込み元のファイルにジャンプするイベントハンドラー
+    const jumpToFile = dc.useCallback(
+        (event) => {
+            // イベントの発生源がチェックボックスなら、ファイルへのジャンプを中止する
+            if (event.target.closest('a, button, input, select, textarea')) {
+                return;
+            }
+            workspace.openLinkText(path, path, event.shiftKey);
+        },
         [path, workspace]
     );
 
@@ -52,7 +58,7 @@ export function PersonalizedPageEmbed(element) {
     return (
         <div className="personalized-embed" key={uuid}>
             <div className="personalized-embed-header">
-                <h2 onClick={onTimestampClick}>
+                <h2 onClick={jumpToFile}>
                     <span className="date">{created.toFormat("MM/dd")} </span>
                     <span className="time">{created.toFormat("HH:mm:ss")}</span>
                 </h2>
@@ -73,7 +79,9 @@ export function PersonalizedPageEmbed(element) {
                 </fieldset>
             </div>
 
-            <dc.SpanEmbed path={path} start={start} end={end} showExplain={false} />
+            <div onClick={jumpToFile}>
+                <dc.SpanEmbed path={path} start={start} end={end} showExplain={false} />
+            </div>
         </div>
     );
 }
