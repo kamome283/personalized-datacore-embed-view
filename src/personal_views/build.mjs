@@ -1,5 +1,5 @@
 import * as esbuild from "esbuild";
-import { readdir } from "fs/promises";
+import { readdir, readFile, writeFile } from "fs/promises";
 import path from "path";
 
 const srcDir = "src/personal_views";
@@ -22,9 +22,13 @@ async function build(entryPoint, outFile) {
         minify: false,
         jsx: "preserve",
         format: "esm",
-        treeShaking: false, // メインのView関数がexportされない場合は削除されてしまうのを阻止
-        footer: { js: "return View;" },
     });
+
+    // Datacore views are not ESM modules, so we rewrite the `export` statement
+    // to a `return` statement to produce the correct format.
+    const content = await readFile(outFile, "utf-8");
+    const newContent = content.replace(/export \{/, "return {");
+    await writeFile(outFile, newContent);
 }
 
 await Promise.all(buildTargets.map((target) => build(...target)));
