@@ -1,6 +1,6 @@
 import { PersonalizedPageEmbed } from "./components/personalized-embed";
 
-function View() {
+export function View() {
     const currentFile = dc.useCurrentFile();
     const today = currentFile.$name;
     const data = dc.useQuery(`@page and path("tweets/${today}")`);
