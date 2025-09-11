@@ -4,5 +4,6 @@ export function View() {
     const currentFile = dc.useCurrentFile();
     const today = currentFile.$name;
     const data = dc.useQuery(`@page and path("tweets/${today}")`);
-    return <dc.List rows={data} type="block" renderer={PersonalizedPageEmbed} />;
+    const sorted = dc.useArray(data, (data) => data.sort((e) => e.value("created")));
+    return <dc.List rows={sorted} type="block" renderer={PersonalizedPageEmbed} />;
 }
