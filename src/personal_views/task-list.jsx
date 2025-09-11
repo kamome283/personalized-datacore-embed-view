@@ -26,10 +26,10 @@ export function View() {
         const { key, rows } = group;
         return (
             <div key={key}>
-                <h2>
+                <h3>
                     {key.toUpperCase()}
                     {option.label}
-                </h2>
+                </h3>
                 <dc.List rows={rows} type="block" renderer={PersonalizedPageEmbed} />
             </div>
         );
