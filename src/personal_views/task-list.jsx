@@ -3,7 +3,7 @@ import { STATUS_OPTIONS } from "./constants/status-options";
 
 const HIDE_DONE_SECTION = true;
 
-export function TaskList(date) {
+export function TaskList({ date }) {
     const query = `
         @page 
         and created >= date(${date}) - dur(6d) 
