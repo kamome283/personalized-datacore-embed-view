@@ -24,10 +24,10 @@ export function TaskList({ date }) {
         const { key, rows } = group;
         return (
             <div key={key}>
-                <h3>
+                <h2>
                     {key.toUpperCase()}
                     {option.label}
-                </h3>
+                </h2>
                 <dc.List rows={rows} type="block" renderer={PersonalizedPageEmbed} />
             </div>
         );
