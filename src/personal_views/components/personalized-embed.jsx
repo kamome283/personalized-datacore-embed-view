@@ -1,5 +1,17 @@
 import { STATUS_OPTIONS } from "../constants/status-options";
 
+const headingTimestampStyles = {
+    "--font-weight": "var(--h5-weight)",
+    fontVariant: "var(--h5-variant)",
+    letterSpacing: "0.015em",
+    fontSize: "var(--h5-size)",
+    lineHeight: "var(--h5-line-height)",
+    color: "var(--h5-color)",
+    fontWeight: "var(--font-weight)",
+    fontStyle: "var(--h5-style)",
+    fontFamily: "var(--h5-font)",
+};
+
 export function PersonalizedPageEmbed(element) {
     if (!element.$types.contains("page")) {
         throw new Error("Not a page");
@@ -58,7 +70,7 @@ export function PersonalizedPageEmbed(element) {
     return (
         <div className="personalized-embed" key={uuid}>
             <div className="personalized-embed-header">
-                <h3 onClick={jumpToFile}>
+                <h3 onClick={jumpToFile} style={headingTimestampStyles}>
                     <span className="embed-header-date">{created.toFormat("MM/dd")}</span>
                     <span className="embed-header-space"> </span>
                     <span className="embed-header-time">{created.toFormat("HH:mm:ss")}</span>
