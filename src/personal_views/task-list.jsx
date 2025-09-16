@@ -3,13 +3,11 @@ import { STATUS_OPTIONS } from "./constants/status-options";
 
 const HIDE_DONE_SECTION = true;
 
-export function TaskList() {
-    const currentFile = dc.useCurrentFile();
-    const today = currentFile.$name;
+export function TaskList(date) {
     const query = `
         @page 
-        and created >= date(${today}) - dur(6d) 
-        and created < date(${today}) + dur(1d)
+        and created >= date(${date}) - dur(6d) 
+        and created < date(${date}) + dur(1d)
         and exists(status)
         and status != "tweet"`;
     const data = dc.useQuery(query);
