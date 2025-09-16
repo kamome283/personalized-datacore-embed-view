@@ -1,5 +1,17 @@
 import { STATUS_OPTIONS } from "../constants/status-options";
 
+const headingTimestampStyles = {
+    "--font-weight": "var(--h5-weight)",
+    fontVariant: "var(--h5-variant)",
+    letterSpacing: "0.015em",
+    fontSize: "var(--h5-size)",
+    lineHeight: "var(--h5-line-height)",
+    color: "var(--h5-color)",
+    fontWeight: "var(--font-weight)",
+    fontStyle: "var(--h5-style)",
+    fontFamily: "var(--h5-font)",
+};
+
 export function PersonalizedPageEmbed(element) {
     if (!element.$types.contains("page")) {
         throw new Error("Not a page");
@@ -29,7 +41,7 @@ export function PersonalizedPageEmbed(element) {
     const jumpToFile = dc.useCallback(
         (event) => {
             // イベントの発生源がチェックボックスなら、ファイルへのジャンプを中止する
-            if (event.target.closest('a, button, input, select, textarea')) {
+            if (event.target.closest("a, button, input, select, textarea")) {
                 return;
             }
             workspace.openLinkText(path, path, event.shiftKey);
@@ -58,10 +70,11 @@ export function PersonalizedPageEmbed(element) {
     return (
         <div className="personalized-embed" key={uuid}>
             <div className="personalized-embed-header">
-                <h5 onClick={jumpToFile}>
-                    <span className="date">{created.toFormat("MM/dd")} </span>
-                    <span className="time">{created.toFormat("HH:mm:ss")}</span>
-                </h5>
+                <h3 onClick={jumpToFile} style={headingTimestampStyles}>
+                    <span className="embed-header-date">{created.toFormat("MM/dd")}</span>
+                    <span className="embed-header-space"> </span>
+                    <span className="embed-header-time">{created.toFormat("HH:mm:ss")}</span>
+                </h3>
                 <fieldset>
                     {STATUS_OPTIONS.map(({ value, label }) => (
                         <dc.preact.Fragment key={value}>
