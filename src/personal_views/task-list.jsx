@@ -3,7 +3,7 @@ import { STATUS_OPTIONS } from "./constants/status-options";
 
 const HIDE_DONE_SECTION = true;
 
-export function View() {
+export function TaskList() {
     const currentFile = dc.useCurrentFile();
     const today = currentFile.$name;
     const query = `
