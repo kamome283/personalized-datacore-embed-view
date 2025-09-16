@@ -1,3 +1,29 @@
+# 0.1.28
+
+- Fixes #134: Properly strip whitespace from codeblock languages to fix some issues with `dc.require`.
+
+
+---
+
+# 0.1.27
+
+- Bugfix release for reverting an accidental capitalization change in $typename for markdown lists.
+
+---
+
+# 0.1.26
+
+- Fixes non-inline Markdown blocks and removes the plaintext flickering.
+
+---
+
+# 0.1.25
+
+- Re-added support for emoji-based task metadata from the Tasks plugin.
+- Added a debug command, "Datacore: Reindex entire vault", to reload all files in the vault.
+
+---
+
 # 0.1.24
 
 - Add official datacore API typings at '@blacksmithgu/datacore'.

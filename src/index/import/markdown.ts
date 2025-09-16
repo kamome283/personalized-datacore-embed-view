@@ -9,6 +9,7 @@ import {
     asInlineField,
     extractFullLineField,
     extractInlineFields,
+    extractSpecialTaskFields,
     jsonInlineField,
 } from "./inline-field";
 import {
@@ -134,7 +135,10 @@ export function markdownSourceImport(
                 // This is an indented-style codeblock.
                 blocks.set(start, new CodeblockData(start, end, blockOrdinal++, [], "indent", start, end, block.id));
             } else {
-                const languages = match.length > 1 && match[1] ? match[1].split(",") : [];
+                // Pull out all languages in the block, stripping whitespace and empty blocks.
+                const rawLanguages = match.length > 1 && match[1] ? match[1].split(",") : [];
+                const languages = rawLanguages.map((lang) => lang.trim()).filter((lang) => lang.length > 0);
+
                 blocks.set(
                     start,
                     new CodeblockData(start, end, blockOrdinal++, languages, "fenced", start + 1, end - 1, block.id)
@@ -184,7 +188,7 @@ export function markdownSourceImport(
     // In the second list pass, actually construct the list heirarchy.
     for (const item of listItems.values()) {
         if (item.parentLine < 0) {
-            const listBlock = blocks.getPairOrNextHigher(-item.parentLine)![1];
+            const listBlock = blocks.getPairOrNextHigher(-item.parentLine - 1)![1];
             if (!listBlock || !(listBlock.type === "list")) continue;
 
             (listBlock as ListBlockData).items.push(item);
@@ -243,6 +247,7 @@ export function markdownSourceImport(
     // Inline Fields //
     ///////////////////
 
+    // All generic inline fields.
     for (const field of iterateInlineFields(lines)) {
         const line = field.position.line;
         markdownMetadata.inlineField(field);
@@ -251,6 +256,16 @@ export function markdownSourceImport(
         lookup(line, blocks)?.metadata.inlineField(field);
         lookup(line, listItems)?.metadata.inlineField(field);
     }
+
+    for (const item of listItems.values()) {
+        for (let lineno = item.start; lineno < item.end; lineno++) {
+            const taskInlineFields = extractSpecialTaskFields(lines[lineno]);
+            for (const field of taskInlineFields) {
+                item.metadata.inlineField(asInlineField(field, lineno));
+            }
+        }
+    }
+
     sectionArray.push(...sections.values());
     return {
         lines,
