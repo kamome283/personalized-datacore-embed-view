@@ -43,7 +43,7 @@ export function PersonalizedPageEmbed(element) {
             if (event.target.closest("a, button, input, select, textarea")) {
                 return;
             }
-            workspace.openLinkText(path, path, event.shiftKey);
+            void workspace.openLinkText(path, path, event.shiftKey);
         },
         [path, workspace]
     );
@@ -59,7 +59,7 @@ export function PersonalizedPageEmbed(element) {
             // そのファイルを依存配列に入れるよりも毎回ここで作成するほうが信頼性が高そう
             const file = dc.core.vault.getFileByPath(path);
             if (!file) throw new Error("No Matching TFile");
-            dc.app.fileManager.processFrontMatter(file, (frontmatter) => {
+            void dc.app.fileManager.processFrontMatter(file, (frontmatter) => {
                 frontmatter.status = newStatus;
             });
         },
