@@ -4,13 +4,12 @@ import { STATUS_OPTIONS } from "./constants/status-options";
 const HIDE_DONE_SECTION = true;
 
 const taskGroupHeadingStyles = {
-    "--font-weight": "var(--h3-weight)",
     fontVariant: "var(--h3-variant)",
     letterSpacing: "-0.015em",
     lineHeight: "var(--h3-line-height)",
     fontSize: "var(--h3-size)",
     color: "var(--h3-color)",
-    fontWeight: "var(--font-weight)",
+    fontWeight: "var(--h3-weight)",
     fontStyle: "var(--h3-style)",
     fontFamily: "var(--h3-font)",
 };
